@@ -28,14 +28,7 @@ DMX_ESPNOW::DMX_ESPNOW() {
 
 bool DMX_ESPNOW::beginSender(uint8_t channel) {
   isSender = true;
-  
-  WiFi.mode(WIFI_STA);
-  WiFi.disconnect();
-  
-  if (channel > 0 && channel <= 13) {
-    esp_wifi_set_channel(channel, WIFI_SECOND_CHAN_NONE);
-  }
-  
+   
   if (esp_now_init() != ESP_OK) {
     Serial.println("ESP-NOW init failed");
     return false;
@@ -62,13 +55,6 @@ bool DMX_ESPNOW::beginSender(uint8_t channel) {
 bool DMX_ESPNOW::beginReceiver(uint8_t channel, DMXFrameCallback callback) {
   isSender = false;
   frameCallback = callback;
-  
-  WiFi.mode(WIFI_STA);
-  WiFi.disconnect();
-  
-  if (channel > 0 && channel <= 13) {
-    esp_wifi_set_channel(channel, WIFI_SECOND_CHAN_NONE);
-  }
   
   Serial.println("DMX ESP-NOW Receiver initialized");
   Serial.print("MAC Address: ");
