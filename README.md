@@ -1,5 +1,7 @@
 # DMX_ESPNOW Library
 
+Status: Untested, WIP!
+
 Send and receive DMX512 universes wirelessly using ESP-NOW on ESP32.
 
 ## Features
