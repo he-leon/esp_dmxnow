@@ -1,0 +1,7 @@
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DMX_ESPNOW	KEYWORD1
+DMXPacket	KEYWORD1
+DMXFrameCallback	KEYWORD
