@@ -1,9 +1,7 @@
 /*
  * DMX_ESPNOW.h
- * 
- * DMX512 over ESP-NOW for ESP32
- * 
- * Copyright (c) 2024 Your Name
+ * * DMX512 over ESP-NOW for ESP32
+ * * Copyright (c) 2024 Your Name
  * MIT License
  */
 
@@ -20,26 +18,30 @@
 
 // Packet structure
 typedef struct {
+  uint8_t universeId;
   uint8_t packetNum;
   uint8_t sequenceNum;
   uint16_t startChannel;
   uint8_t channelCount;
-  uint8_t data[240];
+  uint8_t data[239];
 } DMXPacket;
 
 // Callback function types
-typedef void (*DMXFrameCallback)(void);
+typedef void (*DMXFrameCallback)(uint8_t universeId);
 typedef void (*DMXSendCallback)(bool success);
 
 class DMX_ESPNOW {
 public:
   DMX_ESPNOW();
   
-  // Initialize as sender
-  bool beginSender(uint8_t channel = 1);
+  // Initialize as sender (Modified: Removed channel parameter)
+  bool beginSender(uint8_t universeId);
   
-  // Initialize as receiver
-  bool beginReceiver(uint8_t channel = 1, DMXFrameCallback callback = nullptr);
+  // Initialize as receiver (Modified: Removed channel parameter)
+  bool beginReceiver(DMXFrameCallback callback = nullptr);
+  
+  // Utility: Set the universe ID this receiver instance should listen to
+  void setReceiveUniverseId(uint8_t universeId);
   
   // Sender methods
   void setChannel(uint16_t channel, uint8_t value);
@@ -67,6 +69,10 @@ public:
 private:
   uint8_t dmxData[DMX_UNIVERSE_SIZE];
   uint8_t broadcastAddress[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+  
+  // The ID of the universe this instance is sending/receiving
+  uint8_t currentUniverseId;
+  
   uint8_t frameSequence;
   bool isSender;
   
